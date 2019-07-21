@@ -28,16 +28,16 @@ func ParseMsToUtime(ms interface{}) (time.Time, error) {
 	case int32:
 		m = int64(ms.(int32))
 	default:
-		return time.Now(), fmt.Errorf("not support ms, ms:%+v", ms)
+		return time.Now().UTC(), fmt.Errorf("not support ms, ms:%+v", ms)
 	}
 	     //1563689757037992000
 	if m > 999999999999999999 {
 		return time.Unix(m / 1000000000, m % 1000000000), nil
 	} else if m > 999999999999999 {
-		return time.Unix(m / 1000000, m % 1000000 * 1000), nil
+		return time.Unix(m / 1000000, m % 1000000 * 1000).UTC(), nil
 	} else if m > 999999999999 { //毫秒
-		return time.Unix(m / 1000, m % 1000 * 1000000), nil
+		return time.Unix(m / 1000, m % 1000 * 1000000).UTC(), nil
 	} else {
-		return time.Unix(m, 0), nil
+		return time.Unix(m, 0).UTC(), nil
 	}
 }
